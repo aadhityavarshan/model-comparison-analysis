@@ -3,7 +3,10 @@ import joblib
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error
+
 from ..config import PROCESSED_DATA_DIR
+import mlflow
+import mlflow.sklearn
 
 def load_processed_data():
     return pd.read_csv(PROCESSED_DATA_DIR / "processed_restaurant_data.csv", parse_dates=["date"])
@@ -32,8 +35,18 @@ def train_baseline_model():
     mae = mean_absolute_error(y_test, pred)
     print(f"Mean Absolute Error on test set: {mae:.2f}")
 
-    joblib.dump(model, PROCESSED_DATA_DIR / "baseline_model.joblib")
+    model_path = PROCESSED_DATA_DIR / "baseline_model.joblib"
+    joblib.dump(model, model_path)
     print(f"Baseline model saved to {PROCESSED_DATA_DIR / 'baseline_model.joblib'}")
+
+    mlflow.set_experiment("food_demand_experiment")
+    with mlflow.start_run(run_name="baseline_linear_regression"):
+        mlflow.log_param("model_type", "LinearRegression")
+        mlflow.log_param("features", ",".join(features))
+        mlflow.log_metric("mae", mae)
+
+        mlflow.log_artifact(str(model_path), artifact_path="models")
+        mlflow.sklearn.log_model(model, artifact_path="sklearn-model")
 
     return model, mae
 

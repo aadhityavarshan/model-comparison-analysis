@@ -3,7 +3,10 @@ import joblib
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error
+
 from ..config import PROCESSED_DATA_DIR
+import mlflow
+import mlflow.sklearn
 
 def load_processed_data() -> pd.DataFrame:
     return pd.read_csv(PROCESSED_DATA_DIR / "processed_restaurant_data.csv", parse_dates=["date"])
@@ -41,6 +44,17 @@ def train_rf_model():
     model_path = PROCESSED_DATA_DIR / "rf_model.joblib"
     joblib.dump(best_model, model_path)
     print(f"Saved RF model to {model_path}")
+
+    mlflow.set_experiment("food_demand_experiment")
+
+    with mlflow.start_run(run_name="random_forest_regressor"):
+        mlflow.log_param("model_type", "RandomForestRegressor")
+        mlflow.log_params(search.best_params_)
+        mlflow.log_param("features", ",".join(features))
+        mlflow.log_metric("mae", mae)
+
+        mlflow.log_artifact(str(model_path), artifact_path="models")
+        mlflow.sklearn.log_model(best_model, artifact_path="sklearn-model")
 
     return best_model, mae
 
