@@ -12,3 +12,5 @@ mlflow
 pytest
 pytest-asyncio
 httpx
+streamlit
+requests

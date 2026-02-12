@@ -217,6 +217,31 @@ http://127.0.0.1:8000/docs
 
 ---
 
+## 📊 Custom Prediction Dashboard
+
+Instead of using the default API docs, use the interactive Streamlit dashboard:
+
+### Start the dashboard
+```
+streamlit run dashboard.py
+```
+
+Opens automatically at:
+```
+http://localhost:8501
+```
+
+### Features
+- 🎨 Intuitive form for all input parameters
+- 📈 Real-time prediction display
+- 🔄 Toggle between Baseline and RandomForest models
+- 🚀 Visual feedback and error handling
+- 📝 Built-in instructions and help text
+
+**Note:** The API server must be running (`uvicorn api.main:app --reload`) for the dashboard to work.
+
+---
+
 ## 📊 MLflow Tracking
 
 Start MLflow:
