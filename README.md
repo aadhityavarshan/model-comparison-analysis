@@ -42,6 +42,14 @@ Supports selecting model:
 - `"baseline"`
 - `"rf"`
 
+### **Interactive Streamlit Dashboard**
+Custom prediction interface with:
+- 🎨 Beautiful, intuitive UI
+- 📊 Real-time predictions
+- 🔄 Easy model switching
+- ✅ API status indicator
+- 📚 Built-in help and instructions
+
 ### **Exploratory Data Analysis**
 `notebooks/eda.ipynb` includes:
 - Distribution plots
@@ -90,6 +98,7 @@ smart-city-food-demand/
 │
 ├── mlruns/                    # MLflow experiment tracking (auto-generated)
 ├── run_pipeline.py            # Full pipeline orchestration script
+├── dashboard.py               # Streamlit interactive dashboard
 ├── requirements.txt           # Python dependencies
 └── README.md
 ```
@@ -108,6 +117,34 @@ python -m venv .venv
 ```
 pip install -r requirements.txt
 ```
+
+---
+
+## 🎯 Quick Demo (All-in-One)
+
+To see the entire system in action:
+
+**Terminal 1** — Run the machine learning pipeline:
+```
+python run_pipeline.py
+```
+This generates data, trains models, and logs experiments to MLflow.
+
+**Terminal 2** — Start the API server:
+```
+uvicorn api.main:app --reload
+```
+
+**Terminal 3** — Launch the interactive dashboard:
+```
+streamlit run dashboard.py
+```
+
+Then:
+1. Open http://localhost:8501 in your browser
+2. Fill in the form with any values
+3. Click "🔮 Predict Demand" 
+4. See your prediction in real-time!
 
 ---
 
@@ -288,9 +325,9 @@ The notebook covers:
 
 ## 🛠 Future Roadmap
 
+- ✅ **Streamlit dashboard** (DONE)
 - Add XGBoost or LightGBM
 - Add Optuna hyperparameter tuning
-- Build Streamlit dashboard for real-time predictions
 - Containerize with Docker
 - Deploy API to Render / Railway / AWS
 - Add Airflow pipeline for automated retraining
