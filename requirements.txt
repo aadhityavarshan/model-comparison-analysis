@@ -9,3 +9,6 @@ uvicorn
 joblib
 python-dotenv
 mlflow
+pytest
+pytest-asyncio
+httpx

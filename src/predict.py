@@ -11,7 +11,7 @@ def load_model(model_name: str = "baseline"):
     return joblib.load(path)
 
 def predict_one(temp_c, is_weekend, promo, rolling_orders_7d, month, day_of_week, model_name: str = "baseline"):
-    model = load_model()
+    model = load_model(model_name)
     features = np.array([[temp_c, is_weekend, promo, day_of_week, rolling_orders_7d, month]])
     prediction = model.predict(features)
     return prediction[0]
